@@ -1,47 +1,81 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue'
+import MyHeader from './components/MyHeader.vue'
+import ToDoItem from './components/ToDoItem.vue'
+import NewTodo from './components/NewTodo.vue'
+
+const ToDoList = ref([
+  {
+    title: 'Lorem ipsum dolor sit amet',
+    id: 0,
+    priority: 'normal',
+    finished: true
+  },
+  {
+    title: 'Proin at dictum augue, at ornare diam',
+    id: 1,
+    priority: 'low',
+    finished: false
+  },
+  {
+    title: 'Praesent quis tincidunt nulla',
+    id: 2,
+    priority: 'high',
+    finished: false
+  }
+])
+
+const displayNewTask = ref(false)
+const displayBtnNewTask = ref(true)
+
+function displayDivNewTask() {
+  displayNewTask.value = true
+  displayBtnNewTask.value = false
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div id="page-wrapper">
+    <MyHeader />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div v-if="displayBtnNewTask">
+      <button @click="displayDivNewTask">Nový úkol</button>
     </div>
-  </header>
 
-  <main>
-    <TheWelcome />
-  </main>
+    <NewTodo v-if="displayNewTask" />
+
+    <div id="todo-list">
+      <ToDoItem 
+        v-for="ToDo in ToDoList"
+        :key="ToDo.id"
+        :title="ToDo.title"
+        :priority="ToDo.priority"
+        :finished="ToDo.finished"
+      />
+    </div>
+
+    <div id="unfinished-wrapper">
+      <input type="checkbox" name="unfinished" />
+      <label for="unfinished">Pouze nedokončené</label>
+    </div>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<style>
+#page-wrapper {
+  min-width: 500px;
+  background-color: white;
+  padding: 20px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+#todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 </style>
