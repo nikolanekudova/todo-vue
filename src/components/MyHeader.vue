@@ -14,5 +14,6 @@
 
 #todo-icon {
   max-height: 30px;
+  object-fit: contain;
 }
 </style>

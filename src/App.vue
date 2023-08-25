@@ -2,9 +2,11 @@
 import MyHeader from './components/MyHeader.vue'
 import ToDoItem from './components/ToDoItem.vue'
 import NewTodo from './components/NewTodo.vue'
+import { storeToRefs } from 'pinia'
 import { useTodoListStore } from "./stores/store"
 
 const store = useTodoListStore()
+const { getRelevantTodos, displayOnlyUnfinished } = storeToRefs(store)
 
 </script>
 
@@ -20,8 +22,9 @@ const store = useTodoListStore()
 
     <div id="todo-list">
       <ToDoItem 
-        v-for="ToDo in store.ToDoList"
+        v-for="ToDo in getRelevantTodos"
         :key="ToDo.id"
+        :id="ToDo.id"
         :title="ToDo.title"
         :priority="ToDo.priority"
         :finished="ToDo.finished"
@@ -29,7 +32,7 @@ const store = useTodoListStore()
     </div>
 
     <div id="unfinished-wrapper">
-      <input type="checkbox" name="unfinished" />
+      <input type="checkbox" name="unfinished" v-model="displayOnlyUnfinished"/>
       <label for="unfinished">Pouze nedokončené</label>
     </div>
   </div>

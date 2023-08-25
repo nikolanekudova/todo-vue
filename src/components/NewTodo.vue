@@ -1,46 +1,53 @@
 <script setup>
-import { useTodoListStore } from "../stores/store"
+import { useTodoListStore } from '../stores/store'
 
 const store = useTodoListStore()
 
-let todoName = ""
-let priority = "normal"
+let title = ''
+let priority = 'normal'
 
 function addNewTodo() {
-  console.log(todoName)
-  console.log(priority)
-}
+  let todo = {title, priority}
 
+  store.addTodo(todo)
+} 
 </script>
 
 <template>
   <div id="new-todo-wrapper">
     <div id="todo-name-wrapper">
       <p>Název</p>
-      <input type="input" name="todo-name" id="input-name"  v-model="todoName"/>
+      <input type="input" name="title" id="input-name" v-model="title" />
     </div>
     <div id="todo-priority-wrapper">
       <p>Priorita</p>
       <div id="form">
         <div>
-          <input type="radio" id="priority-1" name="priority" value="low" v-model="priority"/>
+          <input type="radio" id="priority-1" name="priority" value="low" v-model="priority" />
           <label for="priority-1">Nízká</label>
         </div>
 
         <div>
-          <input type="radio" id="priority-2" name="priority" value="normal" checked v-model="priority" />
+          <input
+            type="radio"
+            id="priority-2"
+            name="priority"
+            value="normal"
+            checked
+            v-model="priority"
+          />
           <label for="priority-2">Normální</label>
         </div>
 
         <div>
-          <input type="radio" id="priority-3" name="priority" value="high" v-model="priority"/>
+          <input type="radio" id="priority-3" name="priority" value="high" v-model="priority" />
           <label for="priority-3">Vysoká</label>
         </div>
       </div>
     </div>
     <div id="btns-wrapper">
       <button id="btn-add" @click="addNewTodo">Přidat</button>
-      <button id="btn-cancel" @click="store.hideDisplayDivNewTask">Zrušit</button>
+      <button id="btn-cancel" @click="store.hideDivNewTask">Zrušit</button>
     </div>
   </div>
 </template>
@@ -78,11 +85,11 @@ p {
 }
 
 #btn-add {
-  background-color: rgb(150, 227, 150);
+  background-color: rgb(150, 194, 227);
 }
 
 #btn-add:hover {
-  background-color: rgb(93, 191, 93);
+  background-color: rgb(93, 150, 191);
 }
 
 #btn-cancel {
