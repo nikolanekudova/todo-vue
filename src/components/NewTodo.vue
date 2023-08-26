@@ -7,10 +7,10 @@ let title = ''
 let priority = 'normal'
 
 function addNewTodo() {
-  let todo = {title, priority}
+  let todo = { title, priority }
 
   store.addTodo(todo)
-} 
+}
 </script>
 
 <template>
@@ -23,7 +23,12 @@ function addNewTodo() {
       <p>Priorita</p>
       <div id="form">
         <div>
-          <input type="radio" id="priority-1" name="priority" value="low" v-model="priority" />
+          <input 
+            type="radio" 
+            id="priority-1" 
+            name="priority" 
+            value="low" 
+            v-model="priority" />
           <label for="priority-1">Nízká</label>
         </div>
 
@@ -40,7 +45,12 @@ function addNewTodo() {
         </div>
 
         <div>
-          <input type="radio" id="priority-3" name="priority" value="high" v-model="priority" />
+          <input 
+            type="radio" 
+            id="priority-3" 
+            name="priority" 
+            value="high" 
+            v-model="priority" />
           <label for="priority-3">Vysoká</label>
         </div>
       </div>
@@ -79,6 +89,7 @@ p {
   padding: 5px 10px;
 }
 
+/* BUTTONS */
 #btns-wrapper {
   display: flex;
   gap: 10px;
@@ -88,12 +99,13 @@ p {
   background-color: rgb(150, 194, 227);
 }
 
-#btn-add:hover {
-  background-color: rgb(93, 150, 191);
-}
-
 #btn-cancel {
   background-color: rgb(227, 150, 150);
+}
+
+/* BUTTONS HOVER */
+#btn-add:hover {
+  background-color: rgb(93, 150, 191);
 }
 
 #btn-cancel:hover {

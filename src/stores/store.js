@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useTodoListStore = defineStore('todoList', {
   state: () => ({
-    ToDoList: [
+    toDoList: [
       {
         title: 'Lorem ipsum dolor sit amet',
         id: 0,
@@ -34,7 +34,7 @@ export const useTodoListStore = defineStore('todoList', {
         return
       }
 
-      this.ToDoList.push({
+      this.toDoList.push({
         title: todo.title,
         id: this.id++,
         priority: todo.priority,
@@ -43,18 +43,18 @@ export const useTodoListStore = defineStore('todoList', {
       this.hideDivNewTask()
     },
     deleteTodo(todoID) {
-      this.ToDoList = this.ToDoList.filter((todo) => {
+      this.toDoList = this.toDoList.filter((todo) => {
         return todo.id != todoID
       })
     },
     finishTodo(todoID) {
-      for (let i = 0; i < this.ToDoList.length; i++) {
-        if (this.ToDoList[i].id == todoID) {
-          return { ...(this.ToDoList[i].finished = true) }
+      for (let i = 0; i < this.toDoList.length; i++) {
+        if (this.toDoList[i].id == todoID) {
+          return { ...(this.toDoList[i].finished = true) }
         }
       }
-      console.log(this.ToDoList)
-      return this.ToDoList
+      console.log(this.toDoList)
+      return this.toDoList
     },
     displayDivNewTask() {
       this.displayNewTask = true
@@ -65,7 +65,7 @@ export const useTodoListStore = defineStore('todoList', {
       this.displayBtnNewTask = true
     },
     showFinishedTodos() {
-      this.ToDoList = this.ToDoList.filter((todo) => {
+      this.toDoList = this.toDoList.filter((todo) => {
         return todo.finished == false
       })
     }
@@ -73,48 +73,47 @@ export const useTodoListStore = defineStore('todoList', {
   getters: {
     getRelevantTodos() {
       const store = this
-      console.log(this.ToDoList)
+
       this.sortTodos
-      console.log(this.ToDoList)
 
       if (store.displayOnlyUnfinished) {
-        return this.ToDoList.filter((todo) => {
+        return this.toDoList.filter((todo) => {
           return !todo.finished
         })
       } else {
-        return this.ToDoList
+        return this.toDoList
       }
     },
     sortTodos() {
-      // adding numbers for sorting
-      for (let i = 0; i < this.ToDoList.length; i++) {
-        if (this.ToDoList[i].finished) {
-          switch (this.ToDoList[i].priority) {
+      function assignSortNumber(todo) {
+        if (todo.finished) {
+          switch (todo.priority) {
             case 'low':
-              this.ToDoList[i].sortNumber = 1
-              break
+              return 1
             case 'normal':
-              this.ToDoList[i].sortNumber = 2
-              break
+              return 2
             case 'high':
-              this.ToDoList[i].sortNumber = 3
-              break
-          }
-        } else {
-          switch (this.ToDoList[i].priority) {
-            case 'low':
-              this.ToDoList[i].sortNumber = 4
-              break
-            case 'normal':
-              this.ToDoList[i].sortNumber = 5
-              break
-            case 'high':
-              this.ToDoList[i].sortNumber = 6
-              break
+              return 3
           }
         }
+
+        //unfinished
+        switch (todo.priority) {
+          case 'low':
+            return 4
+          case 'normal':
+            return 5
+          case 'high':
+            return 6
+        }
       }
-      return (this.ToDoList = this.ToDoList.sort((b, a) => a.sortNumber - b.sortNumber))
+
+      return (this.toDoList = this.toDoList.sort((secondElement, firstElement) => {
+        firstElement.sortNumber = assignSortNumber(firstElement);
+        secondElement.sortNumber = assignSortNumber(secondElement);
+
+        return firstElement.sortNumber - secondElement.sortNumber
+      }))
     }
   }
 })
