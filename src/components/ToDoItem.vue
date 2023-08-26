@@ -12,9 +12,9 @@ defineProps(['title', 'priority', 'finished', 'id'])
       <div id="todo-first-row">
         <p id="todo-name" :class="{ finished: finished }">{{ title }}</p>
         <div id="alert-icons" v-if="finished == false">
-          <img src="./icons/alert.png" class="alert-icon" v-if="priority == `high`" />
-          <img src="./icons/alert.png" class="alert-icon" v-if="priority == `high`" />
-          <img src="./icons/alert.png" class="alert-icon" v-if="priority != `low`" />
+          <img src="/alert.png" class="alert-icon" v-if="priority == `high`" />
+          <img src="/alert.png" class="alert-icon" v-if="priority == `high`" />
+          <img src="/alert.png" class="alert-icon" v-if="priority != `low`" />
         </div>
       </div>
 
@@ -23,7 +23,7 @@ defineProps(['title', 'priority', 'finished', 'id'])
           Dokončit
         </button>
         <div id="div-icon-delete" @click="store.deleteTodo(id)">
-          <img src="./icons/bin.png" id="icon-delete" />
+          <img src="/bin.png" id="icon-delete" />
         </div>
       </div>
     </div>

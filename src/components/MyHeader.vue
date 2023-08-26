@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <img src="./icons/to-do-list.png" id="todo-icon" />
+    <img src="/to-do-list.png" id="todo-icon" />
     <h1>Todo App</h1>
   </div>
 </template>
