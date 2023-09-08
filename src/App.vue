@@ -1,25 +1,19 @@
-<script setup>
-import MyHeader from './components/MyHeader.vue'
-import ToDoItem from './components/ToDoItem.vue'
-import NewTodo from './components/NewTodo.vue'
-import { storeToRefs } from 'pinia'
-import { useTodoListStore } from './stores/store'
-
-const store = useTodoListStore()
-const { getRelevantTodos, displayOnlyUnfinished } = storeToRefs(store)
-</script>
-
 <template>
-  <div id="page-wrapper">
+  <div class="page-wrapper">
     <MyHeader />
 
-    <div v-if="store.displayBtnNewTask">
+    <div v-if="store.displayNewTask == false">
       <button @click="store.displayDivNewTask">Nový úkol</button>
     </div>
 
-    <NewTodo v-if="store.displayNewTask" />
+    <NewTodo 
+      v-if="store.displayNewTask" 
+      @add="addTodo" 
+      @display="displayNewTask"
+      @finish="finishTodo"
+    />
 
-    <div id="todo-list">
+    <div class="todo-list">
       <ToDoItem
         v-for="ToDo in getRelevantTodos"
         :key="ToDo.id"
@@ -30,15 +24,38 @@ const { getRelevantTodos, displayOnlyUnfinished } = storeToRefs(store)
       />
     </div>
 
-    <div id="unfinished-wrapper">
+    <div class="unfinished-wrapper">
       <input type="checkbox" name="unfinished" v-model="displayOnlyUnfinished" />
       <label for="unfinished">Pouze nedokončené</label>
     </div>
   </div>
 </template>
 
-<style>
-#page-wrapper {
+<script setup>
+import MyHeader from './components/MyHeader.vue'
+import ToDoItem from './components/ToDoItem.vue'
+import NewTodo from './components/NewTodo.vue'
+import { storeToRefs } from 'pinia'
+import { useTodoListStore } from './stores/store'
+
+const store = useTodoListStore()
+const { getRelevantTodos, displayOnlyUnfinished } = storeToRefs(store)
+
+function addTodo(todo) {
+  store.addTodo(todo)
+}
+
+function displayNewTask() {
+  store.displayDivNewTask()
+}
+
+function finishTodo(id) {
+  store.finishTodo(id)
+}
+</script>
+
+<style scoped>
+.page-wrapper {
   min-width: 500px;
   background-color: white;
   padding: 20px;
@@ -48,7 +65,7 @@ const { getRelevantTodos, displayOnlyUnfinished } = storeToRefs(store)
   gap: 20px;
 }
 
-#todo-list {
+.todo-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
