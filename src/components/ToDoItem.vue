@@ -1,66 +1,75 @@
-<script setup>
-import { useTodoListStore } from '../stores/store'
-
-const store = useTodoListStore()
-
-defineProps(['title', 'priority', 'finished', 'id'])
-</script>
-
 <template>
-  <div id="todo-overlay" :class="{ overlay: finished }">
-    <div id="todo" :class="`priority-${priority}`">
-      <div id="todo-first-row">
-        <p id="todo-name" :class="{ finished: finished }">{{ title }}</p>
-        <div id="alert-icons" v-if="finished == false">
+  <div class="todo-overlay" :class="{ overlay: finished }">
+    <div class="todo" :class="`priority-${priority}`">
+      <div class="todo-first-row">
+        <p class="todo-name" :class="{ finished: finished }">{{ title }}</p>
+        <div class="alert-icons" v-if="finished == false">
           <img src="/alert.png" class="alert-icon" v-if="priority == `high`" />
           <img src="/alert.png" class="alert-icon" v-if="priority == `high`" />
           <img src="/alert.png" class="alert-icon" v-if="priority != `low`" />
         </div>
       </div>
-
-      <div id="todo-btns-wrapper">
-        <button id="btn-finish" @click="store.finishTodo(id)" v-if="finished == false">
+      <div class="todo-btns-wrapper">
+        <button class="btn-finish" @click="store.finishTodo(id)" v-if="finished === false">
           Dokončit
         </button>
-        <div id="div-icon-delete" @click="store.deleteTodo(id)">
-          <img src="/bin.png" id="icon-delete" />
+        <div class="div-icon-delete" @click="store.deleteTodo(id)">
+          <img src="/bin.png" class="icon-delete" />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style>
+<script setup>
+import { useTodoListStore } from '../stores/store'
+
+const store = useTodoListStore()
+//const emit = defineEmits(['finish', 'delete'])
+
+defineProps({
+  title: String,
+  priority: String,
+  finished: Boolean,
+  id: Number
+})
+
+/* function finishTodo() {
+  emit("finish", { id })
+} */
+</script>
+
+<style scoped>
 .overlay {
   opacity: 50%;
 }
 
-#todo {
+.todo {
   padding: 10px 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-#todo-first-row {
+.todo-first-row {
   display: flex;
   gap: 10px;
 }
 
 /* BUTTONS */
-#todo-btns-wrapper {
+.todo-btns-wrapper {
   display: flex;
   gap: 10px;
 }
 
-#btn-finish {
+.btn-finish {
   background-color: rgb(150, 194, 227);
   height: 30px;
   display: flex;
   align-items: center;
 }
 
-#div-icon-delete {
+.div-icon-delete {
   width: 30px;
   height: 30px;
   display: flex;
@@ -69,17 +78,17 @@ defineProps(['title', 'priority', 'finished', 'id'])
   background-color: rgb(227, 150, 150);
 }
 
-#icon-delete {
+.icon-delete {
   max-width: 20px;
   object-fit: contain;
 }
 
 /* BUTTONS HOVER */
-#btn-finish:hover {
+.btn-finish:hover {
   background-color: rgb(127, 183, 226);
 }
 
-#div-icon-delete:hover {
+.div-icon-delete:hover {
   background-color: rgb(227, 131, 131);
   cursor: pointer;
 }

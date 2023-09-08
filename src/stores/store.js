@@ -24,12 +24,11 @@ export const useTodoListStore = defineStore('todoList', {
     ],
     id: 3,
     displayNewTask: false,
-    displayBtnNewTask: true,
     displayOnlyUnfinished: false
   }),
   actions: {
     addTodo(todo) {
-      if (todo.title == undefined || todo.title == '') {
+      if (todo.title.value == '') {
         alert('Doplň prosím název úkolu. 🥲')
         return
       }
@@ -40,7 +39,7 @@ export const useTodoListStore = defineStore('todoList', {
         priority: todo.priority,
         finished: false
       })
-      this.hideDivNewTask()
+      this.displayDivNewTask()
     },
     deleteTodo(todoID) {
       this.toDoList = this.toDoList.filter((todo) => {
@@ -57,17 +56,12 @@ export const useTodoListStore = defineStore('todoList', {
       return this.toDoList
     },
     displayDivNewTask() {
-      this.displayNewTask = true
-      this.displayBtnNewTask = false
-    },
-    hideDivNewTask() {
-      this.displayNewTask = false
-      this.displayBtnNewTask = true
-    },
-    showFinishedTodos() {
-      this.toDoList = this.toDoList.filter((todo) => {
-        return todo.finished == false
-      })
+      if(this.displayNewTask == false) {
+        this.displayNewTask = true
+      } else {
+        this.displayNewTask = false
+      }
+
     }
   },
   getters: {
