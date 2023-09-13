@@ -68,8 +68,8 @@ function deleted(todo) {
 }
 
 .todo-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 </style>
