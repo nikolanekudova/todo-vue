@@ -68,21 +68,20 @@ export const useTodoListStore = defineStore('todoList', () => {
             displayNewTask.value = false
         }
     }
-     const getRelevantTodos = computed(() => {
-        const toDoListToSort = toDoList
+
+    const getRelevantTodos = computed(() => {
+        let toDoListToDisplay = toDoList.value
 
         if (displayOnlyUnfinished.value) {
-           toDoListToSort.value.filter((todo) => {
+            return sortTodos(toDoListToDisplay.filter((todo) => {
                 return !todo.finished
-            })
-        }
+            }))
+        } 
 
-        toDoList.value = sortTodos(toDoListToSort)
-
-        return toDoList.value  
+        return sortTodos(toDoListToDisplay)
     }) 
 
-    function sortTodos(toDoList) {
+    function sortTodos(todolist) {
         function assignSortNumber(todo) {
             if (todo.finished) {
                 switch (todo.priority) {
@@ -106,7 +105,7 @@ export const useTodoListStore = defineStore('todoList', () => {
             }
         }
 
-        const toDoListToMutate = toDoList.value
+        let toDoListToMutate = todolist
 
         toDoListToMutate.sort((secondElement, firstElement) => {
             firstElement.sortNumber = assignSortNumber(firstElement)
